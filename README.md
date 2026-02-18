@@ -20,13 +20,14 @@ Electricity theft represents a multi-billion dollar challenge for utilities worl
 
 ```mermaid
 graph TD
-    A[Raw Smart Meter Data] --> B[Data Ingestion Service]
-    B --> C[Feature Engineering Engine]
-    C --> D[SMOTE Class Balancing]
-    D --> E[Model Selection / Training]
-    E --> F[Serialized Artifacts (.pkl)]
-    F --> G[Flask Inference API]
-    G --> H[Premium Glassmorphism UI]
+    A["Raw Smart Meter Data"] --> B["Data Ingestion Service"]
+    B --> C["Feature Engineering Engine"]
+    C --> D["SMOTE Class Balancing"]
+    D --> E["Model Selection / Training"]
+    E --> F["Serialized Artifacts (.pkl)"]
+    G["Flask Inference API"]
+    F --> G
+    G --> H["Premium Glassmorphism UI"]
 ```
 
 ---
