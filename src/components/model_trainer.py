@@ -55,25 +55,16 @@ class ModelTrainer:
                 "Logistic Regression": LogisticRegression(
                     max_iter=1000, random_state=42, class_weight='balanced'),
                 "Random Forest": RandomForestClassifier(
-                    n_estimators=100, random_state=42,
-                    class_weight='balanced'),
-                "Gradient Boosting": GradientBoostingClassifier(
-                    random_state=42),
-                "AdaBoost": AdaBoostClassifier(random_state=42),
+                    n_estimators=50, random_state=42,
+                    class_weight='balanced', n_jobs=-1),
                 "Decision Tree": DecisionTreeClassifier(
-                    max_depth=8, random_state=42, class_weight='balanced'),
-                "K-Nearest Neighbors": KNeighborsClassifier(n_neighbors=5),
+                    max_depth=5, random_state=42, class_weight='balanced'),
             }
 
             if XGBClassifier:
                 models["XGBoost"] = XGBClassifier(
-                    use_label_encoder=False, eval_metric='logloss',
-                    random_state=42)
-
-            if CatBoostClassifier:
-                models["CatBoost"] = CatBoostClassifier(
-                    verbose=False, random_seed=42,
-                    auto_class_weights='Balanced')
+                    n_estimators=50, use_label_encoder=False, 
+                    eval_metric='logloss', random_state=42, n_jobs=-1)
 
             logger.info(f"Evaluating models: {list(models.keys())}")
             report = evaluate_models(X_train, y_train, X_test, y_test, models)

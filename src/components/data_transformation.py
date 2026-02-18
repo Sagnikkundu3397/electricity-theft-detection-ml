@@ -71,7 +71,7 @@ class DataTransformation:
 
     def initiate_data_transformation(self, train_path: str, test_path: str) -> tuple[np.ndarray, np.ndarray, str]:
         """
-        Reads train/test splits, applies feature engineering, SMOTE, and scaling.
+        Reads pre-engineered datasets, applies scaling and SMOTE.
         
         Returns:
             tuple: (train_array, test_array, preprocessor_path)
@@ -81,20 +81,23 @@ class DataTransformation:
             train_df = pd.read_csv(train_path)
             test_df  = pd.read_csv(test_path)
 
-            logger.info("Extracting features from Train Data")
-            X_train_new, y_train = self.extract_features(train_df)
+            logger.info("Splitting Features and Target")
+            target_column_name = "FLAG"
             
-            logger.info("Extracting features from Test Data")
-            X_test_new, y_test   = self.extract_features(test_df)
+            X_train = train_df.drop(columns=[target_column_name])
+            y_train = train_df[target_column_name]
+            
+            X_test  = test_df.drop(columns=[target_column_name])
+            y_test  = test_df[target_column_name]
 
-            logger.info(f"Engineered Features Shape: {X_train_new.shape}")
+            logger.info(f"Features Shape: {X_train.shape}")
 
             preprocessor = self.get_data_transformer_object()
             
             # Scale features
             logger.info("Scaling features")
-            X_train_scaled = preprocessor.fit_transform(X_train_new)
-            X_test_scaled  = preprocessor.transform(X_test_new)
+            X_train_scaled = preprocessor.fit_transform(X_train)
+            X_test_scaled  = preprocessor.transform(X_test)
 
             # Apply SMOTE to Training Data ONLY
             logger.info("Applying SMOTE to balance training data")
