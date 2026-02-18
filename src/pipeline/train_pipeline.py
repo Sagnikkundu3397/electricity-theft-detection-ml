@@ -32,6 +32,14 @@ class TrainPipeline:
                 trainer.initiate_model_training(train_arr, test_arr)
 
             logger.info("========== Training Pipeline Completed =========")
+            
+            # Save metrics to JSON for CI/CD validation
+            import json
+            metrics_path = os.path.join("models", "metrics.json")
+            with open(metrics_path, "w") as f:
+                json.dump({"best_model": best_name, "metrics": best_metrics}, f, indent=4)
+            logger.info(f"Metrics saved to {metrics_path}")
+
             return best_name, best_metrics, full_report
 
         except Exception as e:
