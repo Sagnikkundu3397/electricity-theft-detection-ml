@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Theft Detector | Smart Grid ML</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <style>
+    :root {
+      --primary: #f7971e;
+      --secondary: #ffd200;
+      --success: #00f2fe;
+      --danger: #ff5858;
+      --bg-dark: #0f0c29;
+      --glass-bg: rgba(255, 255, 255, 0.04);
+      --glass-border: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(135deg, #050510 0%, #0f0c29 50%, #1a1a2e 100%);
+      min-height: 100vh;
+      color: white;
+      padding: 3rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 850px;
+      z-index: 10;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: #888;
+      font-size: 1.1rem;
+    }
+
+    .glass-panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 32px;
+      padding: 3.5rem;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    .section-title {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--primary);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    label {
+      font-size: 0.85rem;
+      color: #aaa;
+      font-weight: 500;
+    }
+
+    input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      padding: 1.2rem;
+      border-radius: 14px;
+      color: white;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .detect-btn {
+      grid-column: 1 / -1;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border: none;
+      padding: 1.5rem;
+      border-radius: 16px;
+      color: #000;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.4s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      text-decoration: none;
+    }
+
+    .detect-btn:hover {
+      transform: scale(1.02);
+      filter: brightness(1.1);
+    }
+
+    .result-container {
+      margin-top: 3rem;
+      border-radius: 24px;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .theft {
+      background: rgba(255, 88, 88, 0.1);
+      border: 1px solid var(--danger);
+      color: var(--danger);
+    }
+
+    .normal {
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid var(--success);
+      color: var(--success);
+    }
+
+    .probability-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      margin: 1.5rem 0;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      transition: width 1s;
+    }
+
+    .theft .progress {
+      background: var(--danger);
+    }
+
+    .normal .progress {
+      background: var(--success);
+    }
+
+    .back-home {
+      display: block;
+      text-align: center;
+      margin-top: 2rem;
+      color: #666;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .back-home:hover {
+      color: var(--primary);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container animate__animated animate__fadeIn">
+    <div class="header">
+      <h1>Inference Portal</h1>
+      <p class="subtitle">Submit telemetry for forensic auditing</p>
+    </div>
+    <div class="glass-panel">
+      <div class="section-title"><i class="fas fa-microchip"></i> Audit Input</div>
+      <form method="POST" action="/predict" class="grid">
+        <div class="input-group">
+          <label>Average Daily Consumption (kWh)</label>
+          <input type="number" step="0.01" name="mean" placeholder="e.g. 15.24" required />
+        </div>
+        <div class="input-group">
+          <label>Consumption Volatility (Std Dev)</label>
+          <input type="number" step="0.01" name="std" placeholder="e.g. 4.12" required />
+        </div>
+        <div class="input-group">
+          <label>Operational Minimum (kWh)</label>
+          <input type="number" step="0.01" name="min" placeholder="0.0" required />
+        </div>
+        <div class="input-group">
+          <label>Operational Maximum (kWh)</label>
+          <input type="number" step="0.01" name="max" placeholder="e.g. 45.8" required />
+        </div>
+        <div class="input-group" style="grid-column: 1 / -1;">
+          <label>Zero-Reading Occurrences</label>
+          <input type="number" step="1" name="zeros" placeholder="Count of zero-days" required />
+        </div>
+        <button type="submit" class="detect-btn"><i class="fas fa-shield-virus"></i> Audit Consumer Data</button>
+      </form>
+      {% if result %}
+      <div class="result-container {{ res_class }}">
+        <h3>{{ result }}</h3>
+        <div class="probability-bar">
+          <div class="progress" id="progressBar"></div>
+        </div>
+        <p>Reliability Index: <strong>{{ confidence }}%</strong></p>
+      </div>
+      <script>
+        // Use JS to set width to avoid IDE CSS validation errors with Jinja2 syntax
+        document.getElementById('progressBar').style.width = "{{ confidence or 0 }}%";
+      </script>
+      {% endif %}
+      {% if error %}
+      <div class="result-container theft">
+        <p><strong>Pipeline Error:</strong> {{ error }}</p>
+      </div>
+      {% endif %}
+    </div>
+    <a href="/" class="back-home"><i class="fas fa-arrow-left"></i> Return to Command Center</a>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Electricity Theft Detection | Smart Grid ML</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <style>
+    :root {
+      --primary: #f7971e;
+      --secondary: #ffd200;
+      --accent: #4facfe;
+      --bg-dark: #0f0c29;
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(135deg, #050510 0%, #0f0c29 50%, #1a1a2e 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .bg-glow {
+      position: absolute;
+      width: 40vw;
+      height: 40vw;
+      background: radial-gradient(circle, rgba(247, 151, 30, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: -1;
+      filter: blur(50px);
+    }
+
+    .glow-1 {
+      top: -10%;
+      left: -10%;
+    }
+
+    .glow-2 {
+      bottom: -10%;
+      right: -10%;
+      background: radial-gradient(circle, rgba(79, 172, 254, 0.1) 0%, transparent 70%);
+    }
+
+    .container {
+      text-align: center;
+      padding: 2rem;
+      max-width: 900px;
+      z-index: 10;
+    }
+
+    .header-section {
+      margin-bottom: 4rem;
+    }
+
+    .icon-box {
+      font-size: 5rem;
+      margin-bottom: 1.5rem;
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 15px rgba(247, 151, 30, 0.3));
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(247, 151, 30, 0.1);
+      border: 1px solid rgba(247, 151, 30, 0.3);
+      color: var(--primary);
+      padding: 6px 18px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, #fff, #bbb);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: #a0a0a0;
+      margin-bottom: 3rem;
+      line-height: 1.6;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      width: 100%;
+    }
+
+    .card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-decoration: none;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .card-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+    }
+
+    .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .card p {
+      font-size: 1rem;
+      color: #999;
+      line-height: 1.5;
+    }
+
+    .footer {
+      margin-top: 5rem;
+      font-size: 0.9rem;
+      color: #666;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+
+    .footer span {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      .subtitle {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+  <div class="container animate__animated animate__fadeIn">
+    <div class="header-section">
+      <div class="icon-box animate__animated animate__pulse animate__infinite">
+        <i class="fas fa-bolt"></i>
+      </div>
+      <br>
+      <div class="badge">Enterprise ML Solutions</div>
+      <h1>Smart Grid Resilience</h1>
+      <p class="subtitle">Deploying state-of-the-art CatBoost classifiers to protect grid integrity.</p>
+    </div>
+    <div class="cards">
+      <a href="/train" class="card">
+        <div class="card-icon"><i class="fas fa-brain"></i></div>
+        <h3>Analytics Engine</h3>
+        <p>Execute end-to-end model training, class balancing with SMOTE, and cross-validation.</p>
+      </a>
+      <a href="/predict" class="card">
+        <div class="card-icon"><i class="fas fa-search-nodes"></i></div>
+        <h3>Theft Detector</h3>
+        <p>Real-time inference portal for detecting anomalies in smart meter patterns.</p>
+      </a>
+    </div>
+    <div class="footer">
+      <span><i class="fas fa-microchip"></i> Scikit-Learn 1.3</span>
+      <span><i class="fas fa-database"></i> Big Data Optimized</span>
+      <span><i class="fas fa-shield-halved"></i> MIT Licensed</span>
+    </div>
+  </div>
+</body>
+
+</html>
