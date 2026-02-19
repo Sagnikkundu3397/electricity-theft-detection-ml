@@ -47,13 +47,31 @@ A premium web interface built with **Glassmorphism** principles, providing real-
 
 ---
 
-## 📊 Performance Metrics
+---
 
-| Metric | Score (Post-SMOTE) | Improvement |
-| :--- | :--- | :--- |
-| **F1-Score** | `0.28+` | `130%` Increase |
-| **AUC-ROC** | `0.75` | Significant Separability |
-| **Accuracy** | `~94%` | High Precision |
+## 📊 Model Evaluation & Insights
+
+Comprehensive evaluation metrics and visualizations to ensure transparency and performance validation.
+
+### 1. Model Comparison Analysis
+Comparison of primary metrics (Accuracy, F1, Recall, AUC) across all candidate models.
+![Model Comparison](reports/model_comparison.png)
+
+### 2. ROC Curve Separability
+IEEE-standard ROC curve comparison showing the trade-off between sensitivity and specificity.
+![ROC Comparison](reports/roc_comparison.png)
+
+### 3. Confusion Matrix (Best Model)
+Detailed breakdown of classification results for the selected best model.
+![Confusion Matrix](reports/confusion_matrix.png)
+
+### 4. Feature Importance (Interpretability)
+Identifying the most influential factors in detecting electricity theft.
+![Feature Importance](reports/feature_importance.png)
+
+### 5. SMOTE Effect Visualization
+Visual proof of balancing the highly skewed class distribution using SMOTE.
+![SMOTE Effect](reports/smote_effect.png)
 
 ---
 

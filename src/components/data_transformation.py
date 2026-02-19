@@ -103,11 +103,36 @@ class DataTransformation:
             logger.info("Applying SMOTE to balance training data")
             try:
                 from imblearn.over_sampling import SMOTE
+                import matplotlib.pyplot as plt
+                import seaborn as sns
+
+                # Capture distribution BEFORE SMOTE
+                df_before = pd.DataFrame({'Target': y_train, 'Status': 'Before SMOTE'})
+                
                 smote = SMOTE(random_state=42)
                 X_train_resampled, y_train_resampled = smote.fit_resample(X_train_scaled, y_train)
                 logger.info(f"SMOTE applied. New Train Shape: {X_train_resampled.shape}")
+
+                # Capture distribution AFTER SMOTE
+                df_after = pd.DataFrame({'Target': y_train_resampled, 'Status': 'After SMOTE'})
+                
+                # Plotting SMOTE Effect
+                plt.figure(figsize=(10, 5))
+                df_plot = pd.concat([df_before, df_after])
+                sns.countplot(data=df_plot, x='Target', hue='Status', palette='viridis')
+                plt.title("SMOTE Effect: Impact of Synthetic Over-sampling")
+                plt.xlabel("Class (0: Normal, 1: Theft)")
+                plt.ylabel("Count")
+                plt.grid(axis='y', linestyle='--', alpha=0.7)
+                
+                reports_dir = "reports"
+                os.makedirs(reports_dir, exist_ok=True)
+                plt.savefig(os.path.join(reports_dir, "smote_effect.png"), dpi=300, bbox_inches='tight')
+                plt.close()
+                logger.info("SMOTE effect visualization saved to reports/smote_effect.png")
+
             except ImportError:
-                logger.warning("imbalanced-learn not found. Skipping SMOTE.")
+                logger.warning("imbalanced-learn or matplotlib/seaborn not found. Skipping SMOTE visualization.")
                 X_train_resampled, y_train_resampled = X_train_scaled, y_train
 
             # Combine with target

@@ -1,0 +1,10 @@
+{
+    "best_model": "Logistic Regression",
+    "metrics": {
+        "Accuracy": 0.7967,
+        "F1-Score": 0.2806,
+        "Precision": 0.201,
+        "Recall": 0.4647,
+        "AUC-ROC": 0.7114
+    }
+}

@@ -1,3 +1,4 @@
+import os
 import sys
 from src.components.data_ingestion import DataIngestion
 from src.components.data_transformation import DataTransformation
@@ -36,8 +37,12 @@ class TrainPipeline:
             # Save metrics to JSON for CI/CD validation
             import json
             metrics_path = os.path.join("models", "metrics.json")
+            
+            # Filter only serializable (numeric) metrics
+            serializable_metrics = {k: v for k, v in best_metrics.items() if isinstance(v, (int, float, str))}
+            
             with open(metrics_path, "w") as f:
-                json.dump({"best_model": best_name, "metrics": best_metrics}, f, indent=4)
+                json.dump({"best_model": best_name, "metrics": serializable_metrics}, f, indent=4)
             logger.info(f"Metrics saved to {metrics_path}")
 
             return best_name, best_metrics, full_report
