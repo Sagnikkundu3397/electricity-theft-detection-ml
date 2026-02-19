@@ -103,6 +103,8 @@ class DataTransformation:
             logger.info("Applying SMOTE to balance training data")
             try:
                 from imblearn.over_sampling import SMOTE
+                import matplotlib
+                matplotlib.use('Agg') # Use non-interactive backend
                 import matplotlib.pyplot as plt
                 import seaborn as sns
 

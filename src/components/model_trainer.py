@@ -92,6 +92,8 @@ class ModelTrainer:
         Generates and saves IEEE-style visualizations for results evaluation.
         """
         try:
+            import matplotlib
+            matplotlib.use('Agg') # Use non-interactive backend
             import matplotlib.pyplot as plt
             import seaborn as sns
             
