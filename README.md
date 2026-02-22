@@ -16,6 +16,18 @@ Electricity theft represents a multi-billion dollar challenge for utilities worl
 
 ---
 
+## 📊 Dataset
+
+The system is trained on the **[SGCC Electricity Theft Detection Dataset](https://www.kaggle.com/datasets/madsun/sgcc-electricity-theft-detection-dataset)**, a real-world release by the **State Grid Corporation of China**.
+
+### Dataset Characteristics (Validated):
+- **Total Consumers**: 42,372 (Real-world scale)
+- **Time Horizon**: 1,035 daily readings (Jan 2014 – Oct 2016)
+- **Class Distribution**: ~8.5% Theft / 91.5% Normal
+- **Feature Depth**: 1,034 consumption readings per consumer
+
+---
+
 ## 🏗️ System Architecture
 
 ```mermaid
